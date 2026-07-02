@@ -347,17 +347,9 @@ export const googleCallback = asyncHandler(async (req, res) => {
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
 
-        const options = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none", path: "/"
-        };
-
-        res.cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options);
-
-        // Redirect back to the trusted frontend destination
-        res.redirect(`${FRONTEND_URL}${redirectUrl}`);
+        // Redirect to Next.js frontend proxy to set cookies on the frontend domain
+        const nextJsProxyUrl = `${FRONTEND_URL}/api/auth/google/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&redirect=${encodeURIComponent(redirectUrl)}`;
+        res.redirect(nextJsProxyUrl);
 
     } catch (error) {
         console.error("Google Auth Error:", error);
