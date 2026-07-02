@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
-import { ApiError } from "../utils/apiError.js";
-import { ApiResponse } from "../utils/apiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
@@ -146,7 +146,7 @@ export const loginUser = asyncHandler(async (req, res) => {
                     refreshToken,
                 },
                 "User logged in successfully.",
-                
+
             )
         );
 });
@@ -309,14 +309,14 @@ export const googleCallback = asyncHandler(async (req, res) => {
 
     try {
         const { tokens } = await oauth2Client.getToken(code);
-        
+
         const ticket = await oauth2Client.verifyIdToken({
             idToken: tokens.id_token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
 
         const payload = ticket.getPayload();
-        
+
         if (!payload || !payload.email) {
             throw new Error("No email returned from Google");
         }
@@ -349,7 +349,7 @@ export const googleCallback = asyncHandler(async (req, res) => {
         };
 
         res.cookie("accessToken", accessToken, options)
-           .cookie("refreshToken", refreshToken, options);
+            .cookie("refreshToken", refreshToken, options);
 
         // Redirect back to the trusted frontend destination
         res.redirect(`${FRONTEND_URL}${redirectUrl}`);

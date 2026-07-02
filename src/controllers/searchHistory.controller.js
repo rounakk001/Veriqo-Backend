@@ -1,10 +1,10 @@
 import { SearchHistory } from "../models/searchHistory.model.js";
-import { ApiError } from "../utils/apiError.js";
-import { ApiResponse } from "../utils/apiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 
-                /* save search */       
+/* save search */
 
 
 // Saves a company search for the authenticated user.
@@ -52,7 +52,7 @@ export const saveSearch = asyncHandler(async (req, res) => {
         // Enforce maximum of 10 recent searches per user
         const searches = await SearchHistory.find({ userId: req.user._id })
             .sort({ updatedAt: -1 });
-        
+
         if (searches.length > 10) {
             const searchesToDelete = searches.slice(10).map(s => s._id);
             await SearchHistory.deleteMany({ _id: { $in: searchesToDelete } });

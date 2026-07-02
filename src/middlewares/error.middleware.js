@@ -1,4 +1,4 @@
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from "../utils/ApiError.js";
 
 // Global error handler.
 // Any error passed using next(error) will be processed here.

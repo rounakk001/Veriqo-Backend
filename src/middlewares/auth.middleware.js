@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/user.model.js";
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 // Verifies the JWT access token and attaches the authenticated user to the request.
@@ -34,5 +34,5 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     // Make the authenticated user available to downstream controllers.
     req.user = user;
 
-    next(); 
+    next();
 });
