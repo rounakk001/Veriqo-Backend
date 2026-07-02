@@ -11,7 +11,15 @@ const app = express();
 // credentials: true enables cookies and authentication headers across origins
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN,
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true); // Allow non-browser requests
+            
+            const allowed = process.env.CORS_ORIGIN;
+            if (origin === allowed || origin.startsWith('http://localhost') || origin.endsWith('.vercel.app')) {
+                return callback(null, true);
+            }
+            return callback(new Error('CORS not allowed'), false);
+        },
         credentials: true,
     })
 );      
